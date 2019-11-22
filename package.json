@@ -1,9 +1,9 @@
 {
-  "name": "typescript-action",
-  "version": "0.0.0",
+  "name": "setup-flutter",
+  "version": "1.0.0",
   "private": true,
-  "description": "TypeScript template action",
-  "main": "lib/main.js",
+  "description": "setup flutter action",
+  "main": "lib/setup-flutter.js",
   "scripts": {
     "build": "tsc",
     "test": "jest"
@@ -17,7 +17,7 @@
     "node",
     "setup"
   ],
-  "author": "YourNameOrOrganization",
+  "author": "takuyaohashi",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.0.0"
