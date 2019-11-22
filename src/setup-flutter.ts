@@ -8,15 +8,7 @@ async function run() {
       version = core.getInput('flutter-version', {required: true});
     }
 
-
-    const ms = core.getInput('milliseconds');
-    console.log(`Waiting ${ms} milliseconds ...`)
-
-    core.debug((new Date()).toTimeString())
-    await getFlutter(parseInt(ms, 10));
-    core.debug((new Date()).toTimeString())
-
-    core.setOutput('time', new Date().toTimeString());
+    await getFlutter();
   } catch (error) {
     core.setFailed(error.message);
   }
