@@ -17,4 +17,4 @@ jobs:
     - run: npm test
     - uses: ./
       with: 
-        flutter-version: 1000
+        flutter-version: 'v1.9.1+hotfix.6'

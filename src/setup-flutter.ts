@@ -8,8 +8,12 @@ async function run() {
     if (!version) {
       version = core.getInput('flutter-version', {required: true});
     }
+    let channel = core.getInput('channel');
+    if (!channel) {
+      channel = 'stable'
+    }
 
-    await getFlutter(version);
+    await getFlutter(version, channel);
     const matchersPath = path.join(__dirname, '..', '.github');
     console.log(`##[add-matcher]${path.join(matchersPath, 'java.json')}`);
   } catch (error) {

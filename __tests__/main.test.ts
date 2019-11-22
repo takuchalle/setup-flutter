@@ -4,5 +4,5 @@ import * as cp from 'child_process'
 import * as path from 'path'
 
 test('empty', async() => {
-    true
+    getFlutter('v1.9.1+hotfix.6')
 });
