@@ -9,6 +9,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flutter: [ 'latest', 'v1.9.1+hotfix.6' ]
     steps:
     - uses: actions/checkout@v1
 
@@ -17,7 +20,7 @@ jobs:
     - run: npm test
     - uses: ./
       with: 
-        flutter-version: 'v1.9.1+hotfix.6'
+        flutter-version: ${{ matrix.flutter }}
         channel: 'stable'
     - name: show version
       run: flutter --version
