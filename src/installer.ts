@@ -55,7 +55,7 @@ async function acquireFlutter(version: string, channel: string) : Promise<string
     extPath = await tc.extractZip(downloadPath, undefined);
   }
   console.log(extPath)
-  return extPath
+  return path.join(extPath, 'flutter');
 }
 
 function getPlatformName() : string {
