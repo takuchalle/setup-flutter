@@ -2,9 +2,12 @@ name: 'Setup flutter command'
 description: 'Set up a specific version of the flutter command-line tools to the PATH'
 author: 'takuyaohashi'
 inputs:
-  myInput:              # change this
-    description: 'input description here'
-    default: 'default value if applicable'
+  flutter-version:
+    description: 'The Flutter version to download'
+    default: 'latest'
+  channel:
+    description: 'The Flutter channel to download'
+    default: 'stable'
 runs:
   using: 'node12'
   main: 'lib/setup-flutter.js'
