@@ -18,3 +18,5 @@ jobs:
     - uses: ./
       with: 
         flutter-version: 'v1.9.1+hotfix.6'
+    - name: show version
+      run: flutter --version
