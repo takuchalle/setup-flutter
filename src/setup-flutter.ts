@@ -5,7 +5,10 @@ async function run() {
   try {
     let version = core.getInput('version');
     if (!version) {
-      version = core.getInput('flutter-version', {required: true});
+      version = core.getInput('flutter-version');
+      if(!version) {
+        version = 'latest'
+      }
     }
     let channel = core.getInput('channel');
     if (!channel) {

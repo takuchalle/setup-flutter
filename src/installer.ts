@@ -2,6 +2,7 @@
 let tempDirectory = process.env['RUNNER_TEMPDIRECTORY'] || '';
 import * as core from '@actions/core';
 import * as tc from '@actions/tool-cache';
+import * as restm from 'typed-rest-client/RestClient';
 import * as os from 'os';
 import * as path from 'path';
 import * as util from 'util';
@@ -24,6 +25,9 @@ if (!tempDirectory) {
   }
 
 export async function getFlutter(version: string, channel: string) {
+    if(version === 'latest') {
+        version = await getLatestVersion(channel);
+    }
     let toolPath = tc.find('flutter', version);
 
     if(toolPath) {
@@ -91,4 +95,45 @@ function getFileUrl(filename: string, channel: string): string {
         platform,
         filename
       );
+}
+
+interface IFlutterCurrentRelease {
+    [key: string]: string;
+    beta: string;
+    dev: string;
+    stable: string;
+}
+  
+interface IFlutterRelease {
+    hash: string;
+    channel: string;
+    version: string;
+}
+  
+interface IFlutterRef {
+    current_release: IFlutterCurrentRelease;
+    releases: IFlutterRelease[];
+}
+
+async function getLatestVersion(channel: string) : Promise<string> {
+    const platform: string = getPlatformName();
+    let releasesUrl = util.format('%s/releases_%s.json', baseUrl, platform);
+    console.log(releasesUrl);
+    const rest: restm.RestClient = new restm.RestClient('setup-flutter');
+    const ref: IFlutterRef | null = (await rest.get<IFlutterRef | null>(
+        releasesUrl
+      )).result;
+    
+    if (!ref) {
+        throw new Error('unable to get flutter release ref');
+    }
+
+    const channelVersion = ref.releases.find(
+        release => release.hash === ref.current_release[channel]
+      );
+    if (!channelVersion) {
+        throw new Error(`unable to get latest version from channel ${channel}`);
+    }
+
+    return channelVersion.version;
 }
