@@ -27,6 +27,18 @@ describe('installer tests', () => {
       }
     }, 100000);
 
+    it('Download latest version from stable channel ', async () => {
+        await installer.getFlutter('latest', 'stable');
+      }, 100000);
+    
+    it('Download latest version from beta channel ', async () => {
+        await installer.getFlutter('latest', 'beta');
+    }, 100000);
+
+    it('Download latest version from dev channel ', async () => {
+        await installer.getFlutter('latest', 'dev');
+    }, 100000);
+
     it('Download specified version flutter from stable channel ', async () => {
         await installer.getFlutter('v1.9.1+hotfix.6', 'stable');
         const sdkDir = path.join(toolDir, 'flutter', '1.9.1', os.arch());
