@@ -14,8 +14,31 @@ Basic:
 ```yaml
 steps:
 - uses: actions/checkout@v1
-- uses:
+- uses: takuyaohashi/setup-flutter@v1
   with:
-    flutter-version: 
-- run: 
+    flutter-version: 'latest'
+    channel: 'stable'
+- run: flutter test
 ```
+
+Matrix Testing:
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flutter: [ 'latest', 'v1.9.1+hotfix.6' ]
+    steps:
+    - uses: actions/checkout@v1
+    - uses: takuyaohashi/setup-flutter@v1
+      with: 
+        flutter-version: ${{ matrix.flutter }}
+        channel: 'stable'
+    - name: test
+      run: flutter test
+```
+
+# License
+
+The scripts and documentation in this project are released under the [MIT License](LICENSE)
