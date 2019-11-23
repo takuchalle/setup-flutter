@@ -48,9 +48,9 @@ async function acquireFlutter(version: string, channel: string) : Promise<string
   }
 
   if (process.platform == 'linux') {
-    extPath = await tc.extractTar(downloadPath);
+    extPath = await tc.extractTar(downloadPath, extPath, 'x');
   } else {
-    extPath = await tc.extractZip(downloadPath);
+    extPath = await tc.extractZip(downloadPath, extPath);
   }
   console.log(extPath)
   return extPath
