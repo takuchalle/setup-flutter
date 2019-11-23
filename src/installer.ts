@@ -24,7 +24,14 @@ if (!tempDirectory) {
   }
 
 export async function getFlutter(version: string, channel: string) {
-    let toolPath = await acquireFlutter(version, channel);
+    let toolPath = tc.find('flutter', version);
+
+    if(toolPath) {
+        core.debug(`Tool found in cache ${toolPath}`);
+    } else {
+        let sdkPath = await acquireFlutter(version, channel);
+        toolPath = await tc.cacheDir(sdkPath, 'flutter', version);
+    }
     let binPath = path.join(toolPath, 'bin');
     core.addPath(binPath);
 }
@@ -41,21 +48,17 @@ async function acquireFlutter(version: string, channel: string) : Promise<string
       throw `Failed to download ${filename}: ${error}`;
     }
 
-  //
-  // Extract
-  //
-  let extPath: string = tempDirectory;
-  if (!extPath) {
-    throw new Error('Temp directory not set');
-  }
+    let extPath: string = tempDirectory;
+    if (!extPath) {
+        throw new Error('Temp directory not set');
+    }
 
-  if (process.platform == 'linux') {
-    extPath = await tc.extractTar(downloadPath, undefined, 'x');
-  } else {
-    extPath = await tc.extractZip(downloadPath, undefined);
-  }
-  console.log(extPath)
-  return path.join(extPath, 'flutter');
+    if (process.platform == 'linux') {
+        extPath = await tc.extractTar(downloadPath, undefined, 'x');
+    } else {
+        extPath = await tc.extractZip(downloadPath, undefined);
+    }
+    return path.join(extPath, 'flutter');
 }
 
 function getPlatformName() : string {
