@@ -24,7 +24,9 @@ if (!tempDirectory) {
   }
 
 export async function getFlutter(version: string, channel: string) {
-    await acquireFlutter(version, channel);
+    let toolPath = await acquireFlutter(version, channel);
+    let binPath = path.join(toolPath, 'bin');
+    core.addPath(binPath);
 }
 
 async function acquireFlutter(version: string, channel: string) : Promise<string> {
